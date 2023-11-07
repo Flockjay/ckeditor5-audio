@@ -77,9 +77,9 @@ function isInOtherAudio( selection ) {
 }
 
 function getInsertAudioParent( selection, model ) {
-	const insertAt = findOptimalInsertionRange( selection, model );
+	const insertionRange = findOptimalInsertionRange( selection, model );
 
-	const parent = insertAt.parent;
+	const parent = insertionRange.start.parent;
 
 	if ( parent.isEmpty && !parent.is( 'element', '$root' ) ) {
 		return parent.parent;
