@@ -1,4 +1,4 @@
-import { findOptimalInsertionPosition, isWidget, toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
+import { findOptimalInsertionRange, isWidget, toWidget } from 'ckeditor5/src/widget';
 
 export function toAudioWidget( viewElement, writer) {
 	writer.setCustomProperty( 'audio', true, viewElement );
@@ -28,7 +28,7 @@ export function insertAudio( writer, model, attributes = {} ) {
 	attributes.controls = 'controls';
 	const audioElement = writer.createElement( 'audio', attributes );
 
-	const insertAtSelection = findOptimalInsertionPosition( model.document.selection, model );
+	const insertAtSelection = findOptimalInsertionRange( model.document.selection, model );
 
 	model.insertContent( audioElement, insertAtSelection );
 
@@ -77,7 +77,7 @@ function isInOtherAudio( selection ) {
 }
 
 function getInsertAudioParent( selection, model ) {
-	const insertAt = findOptimalInsertionPosition( selection, model );
+	const insertAt = findOptimalInsertionRange( selection, model );
 
 	const parent = insertAt.parent;
 
