@@ -71,20 +71,20 @@ export default class AudioUploadEditing extends Plugin {
                 return audioTypes.test(file.type);
             });
 
-            const ranges = data.targetRanges.map(viewRange => editor.editing.mapper.toModelRange(viewRange));
+            if ( !audios.length ) {
+                return;
+            }
+
+            evt.stop()
 
             editor.model.change(writer => {
                 // Set selection to paste target.
-                writer.setSelection(ranges);
+                writer.setSelection(data.targetRanges.map(viewRange => editor.editing.mapper.toModelRange(viewRange)));
 
-                if (audios.length) {
-                    evt.stop();
-
-                    // Upload audios after the selection has changed in order to ensure the command's state is refreshed.
-                    editor.model.enqueueChange('default', () => {
-                        editor.execute('audioUpload', { file: audios });
-                    });
-                }
+                // Upload audios after the selection has changed in order to ensure the command's state is refreshed.
+                editor.model.enqueueChange('default', () => {
+                    editor.execute('audioUpload', { file: audios });
+                });
             });
         });
 
