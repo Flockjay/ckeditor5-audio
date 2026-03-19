@@ -23,6 +23,9 @@ export function viewFigureToModel() {
 			return;
 		}
 
+		// Consume the figure to prevent other converters from processing it again.
+		conversionApi.consumable.consume( data.viewItem, { name: true, classes: 'audio' } );
+
 		// Convert view audio to model audio.
 		const conversionResult = conversionApi.convertItem( viewAudio, data.modelCursor );
 
@@ -31,6 +34,7 @@ export function viewFigureToModel() {
 
 		// When audio wasn't successfully converted then finish conversion.
 		if ( !modelAudio ) {
+			conversionApi.consumable.revert( data.viewItem, { name: true, classes: 'audio' } );
 			return;
 		}
 
